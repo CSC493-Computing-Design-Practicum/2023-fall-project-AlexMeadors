@@ -1,7 +1,7 @@
-# *Replace with YourProposedProposedProjectName*
+# *Chronokeeper*
 ## Description/Motivation
 
-Your formally written project proposal description, and why it is useful/interesting/fun goes here. Try to be as descriptive as possible, as we will be discussing your project ideas during the brainstorming in class.
+I wanted to create a productivity app to keep myself on track and get stuff done so I can have less stress in my life, and be more efficient with my schoolwork.
 
 ### Prerequisites
 
@@ -9,19 +9,19 @@ What is likely to be needed to install and to run *YourProposedProjectName* go h
 
 ## Built With
 
-- [afreamework1](http://www.aframework1.io/): A framework that is likly to be used goes here.
-- [afreamework2](http://www.aframework2.io/): A second framework that is likly to be used goes here.
-- IDE, if applicable
+- [MySQL](https://www.mysql.com): MySQL for database management.
+- [Visual Studio Code] (https://code.visualstudio.com) VCS as an IDE.
 
 ## Author
 
-- **Your name**: *YourProposadProjectName* [yourLinkedIn or yourGithub profile](https://adrress)
+- **Alex Meadors**: *Chronokeeper* [LinkedIn](https://www.linkedin.com/in/alex-meadors-8506751a0/)
 
 ## Acknowledgments
 
-- If you find code that you are going to use in YourProjectName, include author's name and URL here.
-- all who inspired the idea and/or the code in YourProjectName
-- other people you wish to acknowledge
+- Deanna Wilborne, for teaching the class and helping me succeed in the end.
+- RealPython for code examples [Link](https://realpython.com/python-mysql/)
+- MySQLTutorial for code examples [Link](https://www.mysqltutorial.org/mysql-create-table/)
+- SimplifiedPython for code examples [Link](https://www.simplifiedpython.net/python-gui-login/)
 
 ## License (not required initially)
 
