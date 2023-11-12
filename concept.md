@@ -15,5 +15,3 @@ Measures: I will view this project as a success when it can take an arbitrary nu
 Motivation: I personally have had issues keeping myself on task for work, resulting in a lot of wasted time that wasn't even enjoyable. If I can make something to help myself with that it would help my work ethic and quality of life and I know many others that also struggle.
 
 Future Extensions: If time allows I could add ChatGPT support to suggest useful subtasks for each main task or even other subtasks.
-
-Other: (Optional section) To the above, you may add any additional items that you think will strengthen your proposal.
