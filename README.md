@@ -7,10 +7,18 @@ I wanted to create a productivity app to keep myself on track and get stuff done
 
 What is likely to be needed to install and to run *YourProposedProjectName* go here. If nothing is required (i.e. it is a website), state so.
 
+## Scope
+
+The project will include a desktop based Windows application for task management. This app includes ability to add, remove, or modify any tasks, along with including a deadline. The deadline will determine which other features are going to be in use for that task to keep you aware of your deadlines such as notifications or alerts being played when you are off task for too long. Other desktop operating systems and platforms I do not have an appropriate way to test and develop for so they will be beyond the scope of this app.
+
+## Vision
+
+This project was made to help people use their time more effectively, to keep themselves on task when working. When people use this app, it should save them at least some amount of stress by helping get things done. 
+
 ## Built With
 
 - [MySQL](https://www.mysql.com): MySQL for database management.
-- [Visual Studio Code] (https://code.visualstudio.com) VCS as an IDE.
+- [Visual Studio Code](https://code.visualstudio.com) VCS as an IDE.
 
 ## Author
 
@@ -18,7 +26,7 @@ What is likely to be needed to install and to run *YourProposedProjectName* go h
 
 ## Acknowledgments
 
-- Deanna Wilborne, for teaching the class and helping me succeed in the end.
+- Deanna Wilborne, for teaching the class and helping me hopefully succeed in the end.
 - RealPython for code examples [Link](https://realpython.com/python-mysql/)
 - MySQLTutorial for code examples [Link](https://www.mysqltutorial.org/mysql-create-table/)
 - SimplifiedPython for code examples [Link](https://www.simplifiedpython.net/python-gui-login/)
