@@ -1,13 +1,11 @@
 # *Chronokeeper*
-## Description/Motivation
-
-I wanted to create a productivity app to keep myself on track and get stuff done so I can have less stress in my life, and be more efficient with my schoolwork.
+[Project Concept](concept.md)
 
 ### Prerequisites
 
 What is likely to be needed to install and to run *YourProposedProjectName* go here. If nothing is required (i.e. it is a website), state so.
 
-## Scope
+## [Scope](
 
 The project will include a desktop based Windows application for task management. This app includes ability to add, remove, or modify any tasks, along with including a deadline. The deadline will determine which other features are going to be in use for that task to keep you aware of your deadlines such as notifications or alerts being played when you are off task for too long. Other desktop operating systems and platforms I do not have an appropriate way to test and develop for so they will be beyond the scope of this app.
 
