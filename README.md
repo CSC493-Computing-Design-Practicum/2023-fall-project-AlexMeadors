@@ -1,5 +1,6 @@
 # *Chronokeeper*
-![image](https://github.com/CSC493-Computing-Design-Practicum/2023-fall-project-AlexMeadors/assets/54441609/f815289f-f44d-4261-b583-c6a678e02977)
+![image](https://github.com/CSC493-Computing-Design-Practicum/2023-fall-project-AlexMeadors/assets/54441609/7f6c6062-9fd0-4e4c-a56b-c327ae7cceba)
+
 
 [Project Concept](concept.md)
 
