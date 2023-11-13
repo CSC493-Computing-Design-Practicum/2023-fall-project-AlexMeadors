@@ -1,9 +1,7 @@
 # *Chronokeeper*
+![image](https://github.com/CSC493-Computing-Design-Practicum/2023-fall-project-AlexMeadors/assets/54441609/f815289f-f44d-4261-b583-c6a678e02977)
+
 [Project Concept](concept.md)
-
-### Prerequisites
-
-What is likely to be needed to install and to run *YourProposedProjectName* go here. If nothing is required (i.e. it is a website), state so.
 
 ## Vision
 
@@ -13,10 +11,14 @@ This project was made to help people use their time more effectively, to keep th
 
 The project will include a desktop based Windows application for task management. This app includes ability to add, remove, or modify any tasks, along with including a deadline. The deadline will determine which other features are going to be in use for that task to keep you aware of your deadlines such as notifications or alerts being played when you are off task for too long. Other desktop operating systems and platforms I do not have an appropriate way to test and develop for so they will be beyond the scope of this app.
 
-##[Requirements](requirements.md)
-
 ##Prerequisites 
+You should need no other software to run this.
 
+##Requirements
+[Link](requirements.md)
+
+##Design
+[Link](design.md)
  
 ## Built With
 
@@ -26,6 +28,7 @@ The project will include a desktop based Windows application for task management
 ## Author
 
 - **Alex Meadors**: *Chronokeeper* [LinkedIn](https://www.linkedin.com/in/alex-meadors-8506751a0/)
+- About the Author: Alex is a 5th year senior at Berea College, looking to graduate in December. Majoring in Computer Science, he enjoys playing card games with friends and anime.
 
 ## Acknowledgments
 
