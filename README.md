@@ -11,15 +11,15 @@ This project was made to help people use their time more effectively, to keep th
 
 The project will include a desktop based Windows application for task management. This app includes ability to add, remove, or modify any tasks, along with including a deadline. The deadline will determine which other features are going to be in use for that task to keep you aware of your deadlines such as notifications or alerts being played when you are off task for too long. Other desktop operating systems and platforms I do not have an appropriate way to test and develop for so they will be beyond the scope of this app.
 
-##Prerequisites
+## Prerequisites
  
 You should need no other software to run this.
 
-##Requirements
+## Requirements
  
 [Link](requirements.md)
 
-##Design
+## Design
  
 [Link](design.md)
  
