@@ -1,27 +1,45 @@
-# *Replace with YourProposedProposedProjectName*
-## Description/Motivation
+# *Chronokeeper*
+![image](https://github.com/CSC493-Computing-Design-Practicum/2023-fall-project-AlexMeadors/assets/54441609/7f6c6062-9fd0-4e4c-a56b-c327ae7cceba)
 
-Your formally written project proposal description, and why it is useful/interesting/fun goes here. Try to be as descriptive as possible, as we will be discussing your project ideas during the brainstorming in class.
 
-### Prerequisites
+[Project Concept](concept.md)
 
-What is likely to be needed to install and to run *YourProposedProjectName* go here. If nothing is required (i.e. it is a website), state so.
+## Vision
 
+This project was made to help people use their time more effectively, to keep themselves on task when working. When people use this app, it should save them at least some amount of stress by helping get things done.
+
+## Scope
+
+The project will include a desktop based Windows application for task management. This app includes ability to add, remove, or modify any tasks, along with including a deadline. The deadline will determine which other features are going to be in use for that task to keep you aware of your deadlines such as notifications or alerts being played when you are off task for too long. Other desktop operating systems and platforms I do not have an appropriate way to test and develop for so they will be beyond the scope of this app.
+
+## Prerequisites
+ 
+You should need no other software to run this.
+
+## Requirements
+ 
+[Link](requirements.md)
+
+## Design
+ 
+[Link](design.md)
+ 
 ## Built With
 
-- [afreamework1](http://www.aframework1.io/): A framework that is likly to be used goes here.
-- [afreamework2](http://www.aframework2.io/): A second framework that is likly to be used goes here.
-- IDE, if applicable
+- [MySQL](https://www.mysql.com): MySQL for database management.
+- [Visual Studio Code](https://code.visualstudio.com) VCS as an IDE.
 
 ## Author
 
-- **Your name**: *YourProposadProjectName* [yourLinkedIn or yourGithub profile](https://adrress)
+- **Alex Meadors**: *Chronokeeper* [LinkedIn](https://www.linkedin.com/in/alex-meadors-8506751a0/)
+- About the Author: Alex is a 5th year senior at Berea College, looking to graduate in December. Majoring in Computer Science, he enjoys playing card games with friends and anime.
 
 ## Acknowledgments
 
-- If you find code that you are going to use in YourProjectName, include author's name and URL here.
-- all who inspired the idea and/or the code in YourProjectName
-- other people you wish to acknowledge
+- Deanna Wilborne, for teaching the class and helping me hopefully succeed in the end.
+- RealPython for code examples [Link](https://realpython.com/python-mysql/)
+- MySQLTutorial for code examples [Link](https://www.mysqltutorial.org/mysql-create-table/)
+- SimplifiedPython for code examples [Link](https://www.simplifiedpython.net/python-gui-login/)
 
 ## License (not required initially)
 
