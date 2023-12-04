@@ -1,7 +1,8 @@
 from getpass import getpass
 import mysql.connector
 from mysql.connector import connect, Error
-from tkinter import *
+import tkinter as tk           
+from tkinter import font as tkfont
 import tkinter.ttk as ttk
 from windows_toasts import Toast, WindowsToaster
 import os
@@ -9,44 +10,89 @@ import os
 def tkinter_setup():
 
     global root
-    root = Tk()
+    root = tk.Tk()
 
     root.configure(background='gray')
-    
-    root.overrideredirect(1)
+
     screen_width = int(root.winfo_screenwidth() * .33)
     screen_height = int(root.winfo_screenheight() * .33)
     display_size = "%sx%s" % (str(screen_width), str(screen_height))
     root.geometry(display_size)
 
-    
-    button = ttk.Button(root, text="Close", command = root.destroy).grid(column = 50, row = 50, sticky=E, padx=5, pady=5)
+    root.attributes("-topmost", True)
     return root
+
+#TODO set this up and make it pretty
+def setup_login(root):
+    login_frame = tk.Frame(root)
+
+    print("Made it")
+    screen_width = int(root.winfo_screenwidth() * .33)
+    screen_height = int(root.winfo_screenheight() * .33)
+
+ # username
+
+    # username_input = ""
+    # ttk.Label(login_frame, text="Username:").place(x=screen_width * .3, y=screen_height * .25, width=screen_width * .15)
+    # username_entry = ttk.Entry(login_frame, textvariable=username_input).place(x=screen_width * .45, y=screen_height * .25, width=screen_width * .2)
+    # # password
+    # global password_input
+    # password_input = ""
+    # ttk.Label(login_frame, text="Password:").place(x=screen_width * .3, y=screen_height * .45, width=screen_width * .15)
+    # password_entry = ttk.Entry(login_frame,  show="*", textvariable=password_input).place(x=screen_width * .45, y=screen_height * .45, width=screen_width * .2)
+    # # login button
+    # login_button = ttk.Button(login_frame, text="Login",
+    #     command = attempt_login).place(x=screen_width * .4, y=screen_height * .7, width=screen_width * .2)
+
+    screen_width = int(root.winfo_screenwidth() * .33)
+    screen_height = int(root.winfo_screenheight() * .33)
+    label = tk.Label(login_frame, text="Login")
+    label.pack(side="top", fill="x", pady=10)
+    username_entry = tk.Entry(login_frame)
+    username_entry.pack(side="top", fill="x", pady=10, padx= screen_width*.10)
+    password_entry = tk.Entry(login_frame)
+    password_entry.pack(side="top", fill="x", pady=10, padx= screen_width*.10)
+    password_entry.config(show="*")
+
+    login_frame.tkraise()
 
 
 #TODO - fix login
 def login_database(username, passw):
     #Login example obtained from https://realpython.com/python-mysql/
+    fail = True
+    while fail == True:
+        try:
+            fail = False
+            global connection
 
-    username = "root"
-    passw = "100RacecaR001!!!"
-    try:
-        global connection
-        connection = mysql.connector.connect(
-        host="localhost",
-        user= username,
-        password=passw
-        )
-    except Error as e:
-        print(e) 
+            #Take out for interface
+            username = "root"
+            passw = getpass()
+
+            connection = mysql.connector.connect(
+            host="localhost",
+            user= username,
+            password=passw
+            )
+        except Error as e:
+            message = str(e)
+            message = message[:4]
+            #The code for a bad login
+            if message == "1045":
+                fail = True
+                print("Try again")
+            #elseif message
+    
     try:
         create_db_query = "CREATE DATABASE IF NOT EXISTS to_do_list"
         with connection.cursor() as cursor:
             cursor.execute(create_db_query)
-        clear_frame(root)
         return True
-    except Error as e:
-        print(e)    
+    except NameError:
+        #Server not found, close it down
+        print("Server is Not Running")
+        exit()    
 
 
 def create_columns():
@@ -58,7 +104,8 @@ def create_columns():
                      priority TINYINT,
                      source VARCHAR(255),
                      subtask_of INT,
-                     task_num INT AUTO_INCREMENT KEY)""")
+                     task_num INT AUTO_INCREMENT KEY,
+                     completed BOOL)""")
 
 
 def database_message(message):
@@ -77,13 +124,18 @@ def database_message_retrieve(message):
         cursorA.execute(message)
     except Error as e:
         print(e)
-    for data in cursorA.fetchall():
-        print(data)
+    try:
+        for data in cursorA.fetchall():
+            print(data) #Need to pass this out
+    except Error as e:
+        if str(e) == "No result set to fetch from":
+            print("No results match that search")
     connection.commit()
 
+
 def add_task(name, due_date, priority, source, parent = None):
-    message = """INSERT INTO tasks (name, due_date, priority, source, subtask_of)
-        VALUES ("%s", "%s" , %s, "%s", %s)""" % (name, due_date, priority, source, parent)
+    message = """INSERT INTO tasks (name, due_date, priority, source, subtask_of, completed)
+        VALUES ("%s", "%s" , %s, "%s", %s, 0)""" % (name, due_date, priority, source, parent)
     database_message(message)
 
 
@@ -91,27 +143,31 @@ def remove_task(task_number):
     message = "DELETE FROM tasks WHERE task_num = %s" % (task_number)
     database_message(message)
 
-#TODO
-def modify_task(task_number, name, due_date, priority, source, parent = None):
+
+def modify_task(task_number, name, due_date, priority, source, completed, parent = None):
     message = """UPDATE tasks
-        SET (name, due_date, priority, source, subtask_of)
-        VALUES ("%s", "%s" , %s, "%s", %s)""" % (name, due_date, priority, source, parent)
+        SET name = "%s",
+        due_date = "%s",
+        priority = %s,
+        source = "%s",
+        subtask_of = %s,
+        completed = %s
+        WHERE task_num = %s;""" % (name, due_date, priority, source, parent, completed, task_number)
     database_message(message)
 
 
 def retrieve_tasks_bydate(amount):
     order_by_date()
-    message = """SELECT name
+    message = """SELECT *
     FROM tasks
     LIMIT %s""" % (amount)
     database_message_retrieve(message)
 
 
-def retrieve_task_specific(field, task_num):
-    message = """SELECT %s
+def retrieve_task_specific(column, search_term):
+    message = """SELECT *
     FROM tasks
-    WHERE task_num = %s""" % (field, task_num)
-    #print(message)
+    WHERE %s = "%s" """ % (column, search_term)
     database_message_retrieve(message) 
        
 
@@ -123,34 +179,71 @@ def order_by_date():
 
 
 def attempt_login():
-    clear_frame(root)
-    #username_input = username_entry.get()
-    result = 0
-    result = login_database(username_input, password_input)
-    show_task(1,2,2)
+    #clear_frame(root)
+    print("ATTEMPTING LOGIN")
+    usern = username_input.get()
+    passw = password_input.get()
+    result = login_database(usern, passw)
     print(result)
 
 
-def show_login(root):
-        #https://www.simplifiedpython.net/python-gui-login/
+class loginScreen():
+    def __init__(self, master):
+        screen_width = int(root.winfo_screenwidth() * .33)
+        screen_height = int(root.winfo_screenheight() * .33)
+        self.master = master
+        self.frame = tk.Frame(self.master)
 
-        # username
-        global username_input
-        username_input = ""
-        ttk.Label(root, text="Username:").grid(column=0, row=0, sticky=W, padx=5, pady=5)
-        username_entry = ttk.Entry(root, textvariable=username_input).grid(column=1,
-            row=0, sticky=E, padx=5, pady=5)
+        self.username_label = ttk.Label(root, text="Username:").place(x=screen_width * .3, y=screen_height * .25, width=screen_width * .15)
+        self.username_entry = ttk.Entry(root).place(x=screen_width * .45, y=screen_height * .25, width=screen_width * .2)
 
         # password
         global password_input
         password_input = ""
-        ttk.Label(root, text="Password:").grid(column=0, row=1, sticky=W, padx=5, pady=5)
-        password_entry = ttk.Entry(root,  show="*", textvariable=password_input).grid(column=1,
-            row=1, sticky=E, padx=5, pady=5)
+        ttk.Label(root, text="Password:").place(x=screen_width * .3, y=screen_height * .45, width=screen_width * .15)
+        password_entry = ttk.Entry(root,  show="*").place(x=screen_width * .45, y=screen_height * .45, width=screen_width * .2)
 
         # login button
         login_button = ttk.Button(root, text="Login",
-            command = attempt_login).grid(column=1, row=3, sticky=E, padx=5, pady=5)
+             command = attempt_login).place(x=screen_width * .4, y=screen_height * .7, width=screen_width * .2)
+        
+        # # self.frame.tkraise()    
+        # self.master = master
+        # self.frame = tk.Frame(self.master)
+        # self.entry = tk.Entry(self.master)
+        # self.entry.pack()
+        # self.button1 = tk.Button(self.frame, text = 'New Window', width = 25, command = self.new_window)
+        # self.button1.pack()
+        # self.frame.pack()
+
+    def new_window(self):
+        self.newWindow = tk.Toplevel(self.master)
+        self.app = loginScreen(self.newWindow)
+
+
+
+def show_login(root):
+        #https://www.simplifiedpython.net/python-gui-login/
+        screen_width = int(root.winfo_screenwidth() * .33)
+        screen_height = int(root.winfo_screenheight() * .33)
+
+        # username
+        global username_input
+        username_input = ""
+        ttk.Label(root, text="Username:").place(x=screen_width * .3, y=screen_height * .25, width=screen_width * .15)
+        username_entry = ttk.Entry(root, textvariable=username_input).place(x=screen_width * .45, y=screen_height * .25, width=screen_width * .2)
+
+        # password
+        global password_input
+        password_input = ""
+        ttk.Label(root, text="Password:").place(x=screen_width * .3, y=screen_height * .45, width=screen_width * .15)
+        password_entry = ttk.Entry(root,  show="*", textvariable=password_input).place(x=screen_width * .45, y=screen_height * .45, width=screen_width * .2)
+
+        # login button
+        login_button = ttk.Button(root, text="Login",
+            command = attempt_login).place(x=screen_width * .4, y=screen_height * .7, width=screen_width * .2)
+        
+        return username_entry, password_entry
 
 
 def clear_frame(root):
@@ -166,33 +259,38 @@ def notification():
     newToast.on_activated = lambda _: print('Toast clicked!')
     toaster.show_toast(newToast)
 
-def show_task(task_num, x, y):
-    task_info = retrieve_task_specific("name", task_num)
-    #print(task_info)
-    ttk.Label(root, text=task_info).grid(column=x, row=y, sticky=S, padx=20, pady=20, rowspan=5)
-    task_info = retrieve_task_specific("due_date", task_num)
-    ttk.Label(root, text=task_info).grid(column=x+5, row=y, sticky=S, padx=20, pady=20)
-
-
-def task_view():
-    print()  
-
 
 def main():
+    #notification() #works
     print("Running")
     #Start initial connection
     root = tkinter_setup()
+    global username_input
+    global password_input
+    # app = loginScreen(root)
+    
+    
+    #setup_login(root)
     login_database(1,2)
+    login = loginScreen(root)
+    create_columns() #After login, before anything else
+    #add_task("testing", "2023-12-12", "1", "Capstone", 0) #this format works
+    
+    #SYNTAX
+    #modify_task(8, "testing", "2023-12-12", 1, "ME", 0)
+    
+    #username_input, password_input = show_login(root)
 
-    show_login(root)
-    #notification()
-    show_task(1,2,2)
-    print(retrieve_task_specific("name",1))
-    while True:
-        root.update_idletasks()
-        root.update()
+    root.mainloop()
+    #task_view(root, cv)
+    #show_login(root, cv)
+
     #remove_task(connection, 1)
+    
+    #EXAMPLE QUERIES
+    #INSERT INTO tasks (name, due_date, priority, source, subtask_of) 
+    #VALUES ("test", "2000-11-21" , "1", "Capstone", 0);
 
+if __name__ == "__main__":
 
-if __name__ == '__main__':
     main()
