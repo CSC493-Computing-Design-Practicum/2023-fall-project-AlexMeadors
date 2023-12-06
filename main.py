@@ -6,6 +6,7 @@ from tkinter import font as tkfont
 import tkinter.ttk as ttk
 from windows_toasts import Toast, WindowsToaster
 import os
+from PIL import Image
 
 def tkinter_setup():
 
@@ -21,6 +22,7 @@ def tkinter_setup():
 
     root.attributes("-topmost", True)
     return root
+
 
 #TODO set this up and make it pretty
 def setup_login(root):
@@ -181,8 +183,9 @@ def order_by_date():
 def attempt_login():
     #clear_frame(root)
     print("ATTEMPTING LOGIN")
-    usern = username_input.get()
-    passw = password_input.get()
+    global login
+    usern = login.username_entry.get()
+    passw = login.password_entry.get()
     result = login_database(usern, passw)
     print(result)
 
@@ -192,16 +195,20 @@ class loginScreen():
         screen_width = int(root.winfo_screenwidth() * .33)
         screen_height = int(root.winfo_screenheight() * .33)
         self.master = master
+        logo_image = Image.open("chronokeeper_logo.png")
+        logo_size = (int(screen_width * .15),int(screen_width * .15))
+        logo_image.resize(logo_size)
+        logo = tk.PhotoImage(file="chronokeeper_logo.png")
         self.frame = tk.Frame(self.master)
-
+        self.logo_label = ttk.Label(root, image=logo).place(x=screen_width * .1, y=screen_height * .25, height=screen_width * .75, width=screen_width * .75)
         self.username_label = ttk.Label(root, text="Username:").place(x=screen_width * .3, y=screen_height * .25, width=screen_width * .15)
         self.username_entry = ttk.Entry(root).place(x=screen_width * .45, y=screen_height * .25, width=screen_width * .2)
 
         # password
         global password_input
         password_input = ""
-        ttk.Label(root, text="Password:").place(x=screen_width * .3, y=screen_height * .45, width=screen_width * .15)
-        password_entry = ttk.Entry(root,  show="*").place(x=screen_width * .45, y=screen_height * .45, width=screen_width * .2)
+        self.password_label = ttk.Label(root, text="Password:").place(x=screen_width * .3, y=screen_height * .45, width=screen_width * .15)
+        self.password_entry = ttk.Entry(root,  show="*").place(x=screen_width * .45, y=screen_height * .45, width=screen_width * .2)
 
         # login button
         login_button = ttk.Button(root, text="Login",
@@ -219,31 +226,6 @@ class loginScreen():
     def new_window(self):
         self.newWindow = tk.Toplevel(self.master)
         self.app = loginScreen(self.newWindow)
-
-
-
-def show_login(root):
-        #https://www.simplifiedpython.net/python-gui-login/
-        screen_width = int(root.winfo_screenwidth() * .33)
-        screen_height = int(root.winfo_screenheight() * .33)
-
-        # username
-        global username_input
-        username_input = ""
-        ttk.Label(root, text="Username:").place(x=screen_width * .3, y=screen_height * .25, width=screen_width * .15)
-        username_entry = ttk.Entry(root, textvariable=username_input).place(x=screen_width * .45, y=screen_height * .25, width=screen_width * .2)
-
-        # password
-        global password_input
-        password_input = ""
-        ttk.Label(root, text="Password:").place(x=screen_width * .3, y=screen_height * .45, width=screen_width * .15)
-        password_entry = ttk.Entry(root,  show="*", textvariable=password_input).place(x=screen_width * .45, y=screen_height * .45, width=screen_width * .2)
-
-        # login button
-        login_button = ttk.Button(root, text="Login",
-            command = attempt_login).place(x=screen_width * .4, y=screen_height * .7, width=screen_width * .2)
-        
-        return username_entry, password_entry
 
 
 def clear_frame(root):
@@ -265,13 +247,11 @@ def main():
     print("Running")
     #Start initial connection
     root = tkinter_setup()
-    global username_input
-    global password_input
     # app = loginScreen(root)
-    
     
     #setup_login(root)
     login_database(1,2)
+    global login
     login = loginScreen(root)
     create_columns() #After login, before anything else
     #add_task("testing", "2023-12-12", "1", "Capstone", 0) #this format works
