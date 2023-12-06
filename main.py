@@ -6,7 +6,7 @@ from tkinter import font as tkfont
 import tkinter.ttk as ttk
 from windows_toasts import Toast, WindowsToaster
 import os
-from PIL import Image
+from PIL import ImageTk, Image
 
 def tkinter_setup():
 
@@ -17,46 +17,12 @@ def tkinter_setup():
 
     screen_width = int(root.winfo_screenwidth() * .33)
     screen_height = int(root.winfo_screenheight() * .33)
+
     display_size = "%sx%s" % (str(screen_width), str(screen_height))
     root.geometry(display_size)
 
     root.attributes("-topmost", True)
     return root
-
-
-#TODO set this up and make it pretty
-def setup_login(root):
-    login_frame = tk.Frame(root)
-
-    print("Made it")
-    screen_width = int(root.winfo_screenwidth() * .33)
-    screen_height = int(root.winfo_screenheight() * .33)
-
- # username
-
-    # username_input = ""
-    # ttk.Label(login_frame, text="Username:").place(x=screen_width * .3, y=screen_height * .25, width=screen_width * .15)
-    # username_entry = ttk.Entry(login_frame, textvariable=username_input).place(x=screen_width * .45, y=screen_height * .25, width=screen_width * .2)
-    # # password
-    # global password_input
-    # password_input = ""
-    # ttk.Label(login_frame, text="Password:").place(x=screen_width * .3, y=screen_height * .45, width=screen_width * .15)
-    # password_entry = ttk.Entry(login_frame,  show="*", textvariable=password_input).place(x=screen_width * .45, y=screen_height * .45, width=screen_width * .2)
-    # # login button
-    # login_button = ttk.Button(login_frame, text="Login",
-    #     command = attempt_login).place(x=screen_width * .4, y=screen_height * .7, width=screen_width * .2)
-
-    screen_width = int(root.winfo_screenwidth() * .33)
-    screen_height = int(root.winfo_screenheight() * .33)
-    label = tk.Label(login_frame, text="Login")
-    label.pack(side="top", fill="x", pady=10)
-    username_entry = tk.Entry(login_frame)
-    username_entry.pack(side="top", fill="x", pady=10, padx= screen_width*.10)
-    password_entry = tk.Entry(login_frame)
-    password_entry.pack(side="top", fill="x", pady=10, padx= screen_width*.10)
-    password_entry.config(show="*")
-
-    login_frame.tkraise()
 
 
 #TODO - fix login
@@ -195,37 +161,36 @@ class loginScreen():
         screen_width = int(root.winfo_screenwidth() * .33)
         screen_height = int(root.winfo_screenheight() * .33)
         self.master = master
-        logo_image = Image.open("chronokeeper_logo.png")
-        logo_size = (int(screen_width * .15),int(screen_width * .15))
-        logo_image.resize(logo_size)
-        logo = tk.PhotoImage(file="chronokeeper_logo.png")
-        self.frame = tk.Frame(self.master)
-        self.logo_label = ttk.Label(root, image=logo).place(x=screen_width * .1, y=screen_height * .25, height=screen_width * .75, width=screen_width * .75)
-        self.username_label = ttk.Label(root, text="Username:").place(x=screen_width * .3, y=screen_height * .25, width=screen_width * .15)
-        self.username_entry = ttk.Entry(root).place(x=screen_width * .45, y=screen_height * .25, width=screen_width * .2)
 
-        # password
+        image = Image.open("chronokeeper_logo.png")
+        logo_size = (int(screen_width * .15), int(screen_width * .15))
+        resize_image = image.resize(logo_size)
+        self.logo = ImageTk.PhotoImage(resize_image)
+
+        #self.canvas = tk.Canvas(root,height=screen_width * .15, width=screen_width * .15)
+        self.canvas = tk.Canvas(
+            root, 
+            width = 100, 
+            height = 100
+            )
+        self.canvas.place(x = (screen_width / 2) - logo_size[0] / 2,
+                           y = screen_height * .05, width = logo_size[0], height = logo_size[1])
+        #self.canvas.pack()
+        #self.canvas.create_image(0,0,image=logo)
+
+        self.canvas.create_image(0, 0, anchor=tk.NW, image=self.logo) 
+        self.username_label = tk.Label(root, text="Username:").place(x=screen_width * .3, y=screen_height * .4, width=screen_width * .15)
+        self.username_entry = tk.Entry(root).place(x=screen_width * .45, y=screen_height * .4, width=screen_width * .2)
+
+        #password
         global password_input
         password_input = ""
-        self.password_label = ttk.Label(root, text="Password:").place(x=screen_width * .3, y=screen_height * .45, width=screen_width * .15)
-        self.password_entry = ttk.Entry(root,  show="*").place(x=screen_width * .45, y=screen_height * .45, width=screen_width * .2)
+        self.password_label = tk.Label(root, text="Password:").place(x=screen_width * .3, y=screen_height * .55, width=screen_width * .15)
+        self.password_entry = tk.Entry(root,  show="*").place(x=screen_width * .45, y=screen_height * .55, width=screen_width * .2)
 
-        # login button
-        login_button = ttk.Button(root, text="Login",
+        #login button
+        login_button = tk.Button(root, text="Login",
              command = attempt_login).place(x=screen_width * .4, y=screen_height * .7, width=screen_width * .2)
-        
-        # # self.frame.tkraise()    
-        # self.master = master
-        # self.frame = tk.Frame(self.master)
-        # self.entry = tk.Entry(self.master)
-        # self.entry.pack()
-        # self.button1 = tk.Button(self.frame, text = 'New Window', width = 25, command = self.new_window)
-        # self.button1.pack()
-        # self.frame.pack()
-
-    def new_window(self):
-        self.newWindow = tk.Toplevel(self.master)
-        self.app = loginScreen(self.newWindow)
 
 
 def clear_frame(root):
@@ -249,11 +214,11 @@ def main():
     root = tkinter_setup()
     # app = loginScreen(root)
     
-    #setup_login(root)
-    login_database(1,2)
     global login
     login = loginScreen(root)
-    create_columns() #After login, before anything else
+    #setup_login(root)
+    #login_database(1,2)
+    #create_columns() #After login, before anything else
     #add_task("testing", "2023-12-12", "1", "Capstone", 0) #this format works
     
     #SYNTAX
@@ -271,6 +236,7 @@ def main():
     #INSERT INTO tasks (name, due_date, priority, source, subtask_of) 
     #VALUES ("test", "2000-11-21" , "1", "Capstone", 0);
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    main()
+#     main()
+main()
