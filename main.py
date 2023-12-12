@@ -204,51 +204,34 @@ class mainScreen():
         self.time = 0
         self.order = 0 #0 for due date, 1 for prio
         #Main task display
-        self.display()
-
-    def display(self):
         screen_width = int(root.winfo_screenwidth()*.33)
         screen_height = int(root.winfo_screenheight()*.33)
         self.taskFrame = tk.Frame(width= screen_width * .9,
                                   height = screen_height * .5)
-        self.taskFrame.place(x = screen_width * .05,
-                             y = screen_height * .05)
-
         self.taskNameLabel = tk.Label(width = int(screen_width * .02),
                                       height = int(screen_height * .005),
                                       text = "Task Name",
                                       background = "blue")
-
-        self.taskNameLabel.place(x = int(screen_width * .05),
-                                y = int(screen_height * .05))
         #Due Date Label
         self.dueDateLabel = tk.Label(width= int(screen_width * .02),
                                       height = int(screen_height * .005),
                                       text= "Due Date",
                                       background= "blue")
-        self.dueDateLabel.place(x= int(screen_width * .225),
-                                  y = int(screen_height * .05))
         #Source Label
         self.sourceLabel = tk.Label(width= int(screen_width * .02),
                                       height = int(screen_height * .005),
                                       text= "Source",
                                       background= "blue")
-        self.sourceLabel.place(x= int(screen_width * .4),
-                                  y = int(screen_height * .05))
         #Priority Label
         self.priorityLabel = tk.Label(width= int(screen_width * .02),
                                       height = int(screen_height * .005),
                                       text= "Priority",
                                       background= "blue")
-        self.priorityLabel.place(x= int(screen_width * .575),
-                                  y = int(screen_height * .05))
         #Main Task Label
         self.maintaskLabel = tk.Label(width= int(screen_width * .02),
                                       height = int(screen_height * .005),
                                       text= "Parent Task",
                                       background= "blue")
-        self.maintaskLabel.place(x= int(screen_width * .75),
-                                  y = int(screen_height * .05))
         
         self.task1 = taskDisplay(root, 1, 1)
         self.task2 = taskDisplay(root, 2, 2)
@@ -259,13 +242,10 @@ class mainScreen():
         self.orderDateButton = ttk.Button(text='Order by Date', 
                                           width= int(screen_width * .04),
                                           command = setOrderDate)
-        self.orderDateButton.place(x= int(screen_width * .05),
-                                  y = int(screen_height * .575))
         self.orderPrioButton = ttk.Button(text='Order by Priority', 
                                           width= int(screen_width * .04),
                                           command = setOrderPrio)
-        self.orderPrioButton.place(x= int(screen_width * .05),
-                                  y = int(screen_height * .675))
+
         
         self.windowComboBox = ttk.Combobox(textvariable="Chronokeeper")
         windows = Desktop(backend="uia").windows()
@@ -274,6 +254,28 @@ class mainScreen():
         self.windowComboBox['values'] = self.windowsValues
         self.windowComboBox['state'] = 'readonly'
         self.windowComboBox.bind('<<ComboboxSelected>>', setFocus)
+        self.display()
+        
+
+    def display(self):
+        screen_width = int(root.winfo_screenwidth()*.33)
+        screen_height = int(root.winfo_screenheight()*.33)
+        self.taskFrame.place(x = screen_width * .05,
+                             y = screen_height * .05)
+        self.taskNameLabel.place(x = int(screen_width * .05),
+                                y = int(screen_height * .05))
+        self.dueDateLabel.place(x= int(screen_width * .225),
+                                  y = int(screen_height * .05))
+        self.sourceLabel.place(x= int(screen_width * .4),
+                                  y = int(screen_height * .05))
+        self.priorityLabel.place(x= int(screen_width * .575),
+                                  y = int(screen_height * .05))
+        self.maintaskLabel.place(x= int(screen_width * .75),
+                                  y = int(screen_height * .05))
+        self.orderDateButton.place(x= int(screen_width * .05),
+                                  y = int(screen_height * .575))
+        self.orderPrioButton.place(x= int(screen_width * .05),
+                                  y = int(screen_height * .675))
         self.windowComboBox.place(x= int(screen_width * .05),
                                   y = int(screen_height * .775))
         
@@ -292,7 +294,6 @@ class mainScreen():
             root.after(1000, self.timeCheck)
         if self.time >= 10: #If its been more than 10 minutes, ping
             notification()
-
 
 
 def setOrderDate():
@@ -405,17 +406,11 @@ def main():
     
     #username_input, password_input = show_login(root)
 
-    root.mainloop()
-    #task_view(root, cv)
-    #show_login(root, cv)
-
-    #remove_task(connection, 1)
-    
+    root.mainloop()    
     #EXAMPLE QUERIES
     #INSERT INTO tasks (name, due_date, priority, source, subtask_of) 
     #VALUES ("test", "2000-11-21" , "1", "Capstone", 0);
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
 
-#     main()
-main()
+    main()
